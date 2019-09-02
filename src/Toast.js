@@ -37,6 +37,11 @@ class Toast extends Component {
     this.showToast()
   }
 
+  componentWillUnmount () {
+    const { timeoutId } = this.state;
+    clearTimeout(timeoutId)
+  }
+
   componentWillReceiveProps (nextProps) {
     if (this.props.id !== nextProps.id) {
       this.showToast()
@@ -70,7 +75,10 @@ class Toast extends Component {
     setTimeout(this.props.onHide, 350)
   }
 
-  onPress = () => this.hideToast() && this.props.onPress()
+  onPress = () => {
+    this.hideToast()
+    this.props.onPress()
+  }
 
   render () {
     const y = this.state.animatedValue.interpolate({
